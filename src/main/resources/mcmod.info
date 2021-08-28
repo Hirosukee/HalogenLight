@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "halogenlight",
+  "name": "Halogen Light",
+  "description": "Add reima's halogen light for minecraft 1.7.10.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Hirosuke"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
