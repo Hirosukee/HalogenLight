@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -13,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.Random;
 
 import static net.minecraftforge.common.util.ForgeDirection.*;
@@ -44,19 +46,19 @@ public class BlockHalogenLight extends Block {
         Side0 = icon.registerIcon(HalogenLight.modid + ":Side0");
         Side1 = icon.registerIcon(HalogenLight.modid + ":Side1");
         Side2 = icon.registerIcon(HalogenLight.modid + ":Side2");
-        Side3 = icon.registerIcon(HalogenLight.modid + ":Side3");
-        Side4 = icon.registerIcon(HalogenLight.modid + ":Side4");
-        Side5 = icon.registerIcon(HalogenLight.modid + ":Side5");
     }
 
     public IIcon getIcon(int side, int meta) {
         switch(side) {
-            case 0: return Side0;
-            case 1: return Side1;
-            case 2: return Side2;
-            case 3: return Side3;
-            case 4: return Side4;
-            case 5: return Side5;
+            case 0:
+            case 1:
+                return Side0;
+            case 2:
+            case 3:
+                return Side1;
+            case 4:
+            case 5:
+                return Side2;
         }
         return null;
     }
@@ -80,13 +82,10 @@ public class BlockHalogenLight extends Block {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
+    public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_, Entity p_149743_7_)
     {
-        return p_149742_1_.isSideSolid(p_149742_2_ - 1, p_149742_3_, p_149742_4_, EAST,  true) ||
-                p_149742_1_.isSideSolid(p_149742_2_ + 1, p_149742_3_, p_149742_4_, WEST,  true) ||
-                p_149742_1_.isSideSolid(p_149742_2_, p_149742_3_, p_149742_4_ - 1, SOUTH, true) ||
-                p_149742_1_.isSideSolid(p_149742_2_, p_149742_3_, p_149742_4_ + 1, NORTH, true) ||
-                func_150107_m(p_149742_1_, p_149742_2_, p_149742_3_ - 1, p_149742_4_);
+        this.setBlockBoundsBasedOnState(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
+        super.addCollisionBoxesToList(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_, p_149743_5_, p_149743_6_, p_149743_7_);
     }
 
     private boolean func_150107_m(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
@@ -113,5 +112,31 @@ public class BlockHalogenLight extends Block {
         ItemStack item = new ItemStack(HalogenLight.blockHalogenLight);
         this.dropBlockAsItem(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, item);
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+    }
+
+    public int onBlockPlaced(World p_149660_1_, int p_149660_2_, int p_149660_3_, int p_149660_4_, int p_149660_5_, float p_149660_6_, float p_149660_7_, float p_149660_8_, int p_149660_9_) {
+        int j1 = p_149660_9_;
+
+        if (p_149660_5_ == 1 && this.func_150107_m(p_149660_1_, p_149660_2_, p_149660_3_ - 1, p_149660_4_)) {
+            j1 = 5;
+        }
+
+        if (p_149660_5_ == 2 && p_149660_1_.isSideSolid(p_149660_2_, p_149660_3_, p_149660_4_ + 1, NORTH, true)) {
+            j1 = 4;
+        }
+
+        if (p_149660_5_ == 3 && p_149660_1_.isSideSolid(p_149660_2_, p_149660_3_, p_149660_4_ - 1, SOUTH, true)) {
+            j1 = 3;
+        }
+
+        if (p_149660_5_ == 4 && p_149660_1_.isSideSolid(p_149660_2_ + 1, p_149660_3_, p_149660_4_, WEST, true)) {
+            j1 = 2;
+        }
+
+        if (p_149660_5_ == 5 && p_149660_1_.isSideSolid(p_149660_2_ - 1, p_149660_3_, p_149660_4_, EAST, true)) {
+            j1 = 1;
+        }
+
+        return j1;
     }
 }

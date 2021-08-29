@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import java.util.*;
@@ -16,8 +17,8 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     }
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
-    }
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) { }
+
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
@@ -133,7 +134,9 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
                 }
             };
             list.add(bound);
-            super.addCollisionBoxesToList(renderer.minecraftRB.theWorld, 0, 0, 0, bound, list, null);
+            BlockHalogenLight blockHalogen = new BlockHalogenLight();
+            blockHalogen.addCollisionBoxesToList(renderer.minecraftRB.theWorld, 0, 0, 0, bound, list, null);
+            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
             renderer.renderStandardBlock(block, x, y, z);
             return true;
         }
