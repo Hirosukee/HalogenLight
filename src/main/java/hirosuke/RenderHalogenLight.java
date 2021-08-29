@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
 import java.util.*;
@@ -24,6 +23,7 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         if (modelId == this.getRenderId())
         {
+
             renderer.setRenderBounds(0.4375D, 0.0D, 0.0D, 0.5625D, 0.125D, 1.0D);
             maxX = this.getBlockBoundsMaxX();
             minX = this.getBlockBoundsMinX();
