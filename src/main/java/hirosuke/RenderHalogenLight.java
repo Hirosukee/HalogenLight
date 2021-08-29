@@ -4,8 +4,12 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import org.lwjgl.opengl.GL11;
 
 import java.util.*;
 
@@ -137,7 +141,25 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
             BlockHalogenLight blockHalogen = new BlockHalogenLight();
             blockHalogen.addCollisionBoxesToList(renderer.minecraftRB.theWorld, 0, 0, 0, bound, list, null);
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+            EntityLivingBase player = renderer.minecraftRB.thePlayer;
+            int dir = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
             renderer.renderStandardBlock(block, x, y, z);
+            GL11.glPushMatrix();
+            if (dir == 0)
+            {
+                GL11.glRotatef(-180F, 0.0F, 1.0F, 0.0F);
+            }
+
+            if (dir % 2 != 0)
+            {
+                GL11.glRotatef(dir * (-90F), 0.0F, 1.0F, 0.0F);
+            }
+
+            if (dir % 2 == 0)
+            {
+                GL11.glRotatef(dir * (-180F), 0.0F, 1.0F, 0.0F);
+            }
+            GL11.glPopMatrix();
             return true;
         }
         return false;

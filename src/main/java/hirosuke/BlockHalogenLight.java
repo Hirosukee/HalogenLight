@@ -7,10 +7,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -37,9 +39,6 @@ public class BlockHalogenLight extends Block {
     public IIcon Side0;
     public IIcon Side1;
     public IIcon Side2;
-    public IIcon Side3;
-    public IIcon Side4;
-    public IIcon Side5;
 
     @Override
     public void registerBlockIcons(IIconRegister icon) {
@@ -114,10 +113,18 @@ public class BlockHalogenLight extends Block {
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
 
+    @Override
     public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
     {
         super.onBlockAdded(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
         this.func_149930_e(p_149726_1_, p_149726_2_, p_149726_3_, p_149726_4_);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World p_149689_1_, int p_149689_2_, int p_149689_3_, int p_149689_4_, EntityLivingBase p_149689_5_, ItemStack p_149689_6_) {
+        int dir = MathHelper.floor_double((p_149689_5_.rotationYaw * 4F) / 360F + 0.5D) & 3;
+        p_149689_1_.setBlockMetadataWithNotify(p_149689_2_, p_149689_3_, p_149689_4_, dir, 3);
+        super.onBlockPlacedBy(p_149689_1_, p_149689_2_, p_149689_3_, p_149689_4_, p_149689_5_, p_149689_6_);
     }
 
     private void func_149930_e(World p_149930_1_, int p_149930_2_, int p_149930_3_, int p_149930_4_)
