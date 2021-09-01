@@ -7,19 +7,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
-
-import static net.minecraftforge.common.util.ForgeDirection.*;
-import static net.minecraftforge.common.util.ForgeDirection.NORTH;
 
 public class BlockHalogenLight extends Block {
 
@@ -99,9 +95,22 @@ public class BlockHalogenLight extends Block {
         return super.getItemDropped(p_149650_1_, p_149650_2_, p_149650_3_);
     }
 
-    private boolean isPitchSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
+    private boolean isUnderSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
     {
-        if (World.doesBlockHaveSolidTopSurface(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_))
+        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.UP))
+        {
+            return true;
+        }
+        else
+        {
+            Block block = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
+            return block.canPlaceTorchOnTop(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_);
+        }
+    }
+
+    private boolean isAboveSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
+    {
+        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.DOWN))
         {
             return true;
         }
@@ -114,13 +123,7 @@ public class BlockHalogenLight extends Block {
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-        if(isSideSolid(world, x, y, z, DOWN) || !isPitchSolid(world, x, y - 1, z)) {
-            world.setBlockToAir(x, y, z);
-        }
-
-        int l = MathHelper.floor_float(player.rotationPitch);
-        Logger.info(!isPitchSolid(world, x, y - 1, z) + " is pitch");
-        if(!isPitchSolid(world, x, y - 1, z)) {
+        if(!isUnderSolid(world, x, y - 1, z)) {
             world.setBlockMetadataWithNotify(x, y, z, 1, 2);
             world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
         } else {
