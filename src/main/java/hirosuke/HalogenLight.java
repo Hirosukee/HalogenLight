@@ -1,7 +1,5 @@
 package hirosuke;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -27,7 +25,7 @@ public class HalogenLight {
 
      @Mod.EventHandler
      public void perInit(FMLPreInitializationEvent event) {
-
+          Logger.registry(event);
           itemHalogenLight = new Item()
                   .setCreativeTab(CreativeTabs.tabDecorations)
                   .setUnlocalizedName("halogenlight")
@@ -38,6 +36,7 @@ public class HalogenLight {
                   .setBlockTextureName("halogenlight:blockhalogenlight");
           GameRegistry.registerBlock(blockHalogenLight, "Halogen Light");
           LanguageRegistry.addName(blockHalogenLight, "Halogen Light");
+          Logger.info("preinited.");
      }
 
      @Mod.EventHandler
@@ -47,5 +46,6 @@ public class HalogenLight {
                this.RenderID = RenderingRegistry.getNextAvailableRenderId();
                RenderingRegistry.registerBlockHandler(new RenderHalogenLight(Material.rock));
           }
+          Logger.info("inited.");
      }
 }
