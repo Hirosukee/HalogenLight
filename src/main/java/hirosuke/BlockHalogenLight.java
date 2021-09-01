@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,6 +16,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
 import java.util.Random;
 
 public class BlockHalogenLight extends Block {
@@ -97,12 +99,8 @@ public class BlockHalogenLight extends Block {
 
     private boolean isUnderSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
     {
-        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.UP))
-        {
-            return true;
-        }
-        else
-        {
+        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.UP)) { return true; }
+        else {
             Block block = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
             return block.canPlaceTorchOnTop(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_);
         }
@@ -110,15 +108,24 @@ public class BlockHalogenLight extends Block {
 
     private boolean isAboveSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
     {
-        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.DOWN))
-        {
-            return true;
-        }
+        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.DOWN)) { return true; }
         else
         {
             Block block = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
             return block.canPlaceTorchOnTop(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_);
         }
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+
+        int l = world.getBlockMetadata(x, y, z);
+        if(l == 1) {
+            this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
+        } else {
+            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+        }
+        super.setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override

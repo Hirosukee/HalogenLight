@@ -20,7 +20,7 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         if (modelId == this.getRenderId())
         {
-            setBlockBoundsBasedOnState(world, x, y, z);
+            this.setBlockBoundsBasedOnState(world, x, y, z);
 
             maxX = this.getBlockBoundsMaxX();
             minX = this.getBlockBoundsMinX();
