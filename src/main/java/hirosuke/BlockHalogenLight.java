@@ -14,7 +14,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 import java.util.Random;
@@ -60,13 +62,13 @@ public class BlockHalogenLight extends Block {
                 return Side0;
             case 2:
             case 3:
-                if(meta == 1) {
+                if(meta == 4) {
                     return Side1top;
                 }
                 return Side1;
             case 4:
             case 5:
-                if(meta == 1) {
+                if(meta == 4) {
                     return Side2top;
                 }
                 return Side2;
@@ -89,7 +91,7 @@ public class BlockHalogenLight extends Block {
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         this.setBlockBoundsBasedOnState(world, x, y, z);
-        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+        return null;
     }
 
     @Override
@@ -120,7 +122,7 @@ public class BlockHalogenLight extends Block {
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
         int l = world.getBlockMetadata(x, y, z);
-        if(l == 1) {
+        if(l == 4) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
@@ -130,8 +132,8 @@ public class BlockHalogenLight extends Block {
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-        if(!isUnderSolid(world, x, y - 1, z)) {
-            world.setBlockMetadataWithNotify(x, y, z, 1, 2);
+        if(isAboveSolid(world, x, y + 1, z)) {
+            world.setBlockMetadataWithNotify(x, y, z, 4, 2);
             world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
         } else {
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);

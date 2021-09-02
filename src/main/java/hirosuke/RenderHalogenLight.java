@@ -40,7 +40,7 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
         int l = world.getBlockMetadata(x, y, z);
-        if(l == 1) {
+        if(l == 4) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
