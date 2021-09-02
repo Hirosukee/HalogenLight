@@ -35,11 +35,6 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     }
 
     @Override
-    public boolean isNormalCube() {
-        return true;
-    }
-
-    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
         int l = world.getBlockMetadata(x, y, z);

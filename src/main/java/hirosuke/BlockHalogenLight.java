@@ -20,7 +20,7 @@ import java.util.Random;
 public class BlockHalogenLight extends Block {
 
     public BlockHalogenLight() {
-        super(Material.rock);
+        super(Material.circuits);
         this.setCreativeTab(CreativeTabs.tabDecorations);
         this.setHardness(0.1f);
         this.setResistance(1.0f);
@@ -82,8 +82,6 @@ public class BlockHalogenLight extends Block {
     public int getRenderType() { return HalogenLight.RenderID; }
 
     public boolean isOpaqueCube() { return false; }
-
-    public boolean isNormalCube() { return true; }
 
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
