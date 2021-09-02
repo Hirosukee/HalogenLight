@@ -11,7 +11,10 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 @Mod(modid = HalogenLight.modid, name = HalogenLight.name, version = HalogenLight.version)
 public class HalogenLight {
@@ -46,6 +49,7 @@ public class HalogenLight {
                this.RenderID = RenderingRegistry.getNextAvailableRenderId();
                RenderingRegistry.registerBlockHandler(new RenderHalogenLight(Material.rock));
           }
+          GameRegistry.addRecipe(new ItemStack(blockHalogenLight), "ABA", 'A', Blocks.glass, 'B', Blocks.glowstone);
           Logger.info("inited.");
      }
 }
