@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,17 +13,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL11;
 
-import java.util.List;
 import java.util.Random;
 
 public class BlockHalogenLight extends Block {
 
     public BlockHalogenLight() {
-        super(Material.circuits);
+        super(Material.rock);
         this.setCreativeTab(CreativeTabs.tabDecorations);
         this.setHardness(0.1f);
         this.setResistance(1.0f);
@@ -32,7 +28,6 @@ public class BlockHalogenLight extends Block {
         this.setLightLevel(1f);
         this.setLightOpacity(1);
     }
-
 
     public IIcon Side0;
     public IIcon Side02;
@@ -88,6 +83,8 @@ public class BlockHalogenLight extends Block {
 
     public boolean isOpaqueCube() { return false; }
 
+    public boolean isNormalCube() { return true; }
+
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
     {
         this.setBlockBoundsBasedOnState(world, x, y, z);
@@ -120,15 +117,36 @@ public class BlockHalogenLight extends Block {
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
-
         int l = world.getBlockMetadata(x, y, z);
-        if(l == 4) {
+        if (l == 4) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         }
         super.setBlockBoundsBasedOnState(world, x, y, z);
     }
+
+    @Override
+    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
+        if (isUnderSolid(world, x, y - 1, z)) {
+            return true;
+        } else if (isAboveSolid(world, x, y + 1, z)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+//    @Override
+//    public void onBlockAdded(World world, int x, int y, int z) {
+//        if(isAboveSolid(world, x, y, z)) {
+//            world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+//            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
+//        } else {
+//            world.setBlockMetadataWithNotify(x, y, z, 0, 2);
+//            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
+//        }
+//    }
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
@@ -138,6 +156,18 @@ public class BlockHalogenLight extends Block {
         } else {
             world.setBlockMetadataWithNotify(x, y, z, 0, 2);
             world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
+        }
+    }
+
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
+    {
+        if (!isUnderSolid(world, x, y - 1, z) && world.getBlockMetadata(x, y, z) != 4) {
+            dropBlockAsItem(world, x, y, z, new ItemStack(HalogenLight.blockHalogenLight));
+            world.setBlockToAir(x, y, z);
+        } else if (!isAboveSolid(world, x, y + 1, z) && world.getBlockMetadata(x, y, z) == 4) {
+            dropBlockAsItem(world, x, y, z, new ItemStack(HalogenLight.blockHalogenLight));
+            world.setBlockToAir(x, y, z);
         }
     }
 }
