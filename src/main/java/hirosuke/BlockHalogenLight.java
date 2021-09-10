@@ -96,7 +96,7 @@ public class BlockHalogenLight extends Block {
                 } else if (meta == 5) {
                     return Side2_0;
                 } else if (meta == 7) {
-                    return Side0_2;
+                    return Side0_2;a
                 }
                 return Side1_0;
             case 4:
