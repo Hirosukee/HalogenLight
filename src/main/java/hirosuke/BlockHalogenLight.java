@@ -79,6 +79,8 @@ public class BlockHalogenLight extends Block {
                     return Side0_3;
                 } else if (meta == 1) {
                     return Side0_4;
+                } else if (meta == 5 || meta == 7) {
+                    return Side1_2;
                 }
                 return Side0_0;
             case 2:
@@ -91,6 +93,10 @@ public class BlockHalogenLight extends Block {
                     return Side1_3;
                 } else if (meta == 1) {
                     return Side1_4;
+                } else if (meta == 5) {
+                    return Side2_0;
+                } else if (meta == 7) {
+                    return Side0_2;
                 }
                 return Side1_0;
             case 4:
@@ -101,6 +107,10 @@ public class BlockHalogenLight extends Block {
                     return Side2_2;
                 } else if (meta == 3 || meta == 2 || meta == 1) {
                     return Side2_3;
+                } else if (meta == 5) {
+                    return Side1_0;
+                } else if (meta == 7) {
+                    return Side1_1;
                 }
                 return Side2_0;
         }
@@ -155,7 +165,7 @@ public class BlockHalogenLight extends Block {
         int l = world.getBlockMetadata(x, y, z);
         if (l == 0) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
-        } else if (l == 5) {
+        } else if (l == 6) {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         } else if (l == 4) {
             this.setBlockBounds(0f, 0.4375f, 1 - 0.125f, 1f, 0.5625f, 1.0f);
@@ -166,7 +176,11 @@ public class BlockHalogenLight extends Block {
         } else if (l == 1) {
             this.setBlockBounds(0f, 0.4375f, 0.0f, 0.125f, 0.5625f, 1.0f);
         } else {
-            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+            if(l == 5) {
+                this.setBlockBounds(0f, 0.0f, 0.4375f, 1f, 0.125f, 0.5625f);
+            } else if (l == 7) {
+                this.setBlockBounds(0f, 1 - 0.125f, 0.4375f, 1f, 1f, 0.5625f);
+            }
         }
     }
 

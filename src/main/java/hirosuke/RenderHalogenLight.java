@@ -40,7 +40,7 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
         int l = world.getBlockMetadata(x, y, z);
         if (l == 0) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
-        } else if (l == 5) {
+        } else if (l == 6) {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         } else if (l == 4) {
             this.setBlockBounds(0f, 0.4375f, 1 - 0.125f, 1f, 0.5625f, 1.0f);
@@ -51,7 +51,11 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
         } else if (l == 1) {
             this.setBlockBounds(0f, 0.4375f, 0.0f, 0.125f, 0.5625f, 1.0f);
         } else {
-            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+            if(l == 5) {
+                this.setBlockBounds(0f, 0.0f, 0.4375f, 1f, 0.125f, 0.5625f);
+            } else if (l == 7) {
+                this.setBlockBounds(0f, 1 - 0.125f, 0.4375f, 1f, 1f, 0.5625f);
+            }
         }
     }
 
@@ -80,27 +84,27 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 1.0F, 0.0F);
 
-            renderer.renderFaceYPos(block, 0.0D, -0.5d, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, 5));
+            renderer.renderFaceYPos(block, 0.0D, -0.5d, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, 6));
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 0.0F, -1.0F);
 
-            renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, 5));
+            renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, 6));
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 0.0F, 1.0F);
 
-            renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, 5));
+            renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, 6));
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(-1.0F, 0.0F, 0.0F);
 
-            renderer.renderFaceXNeg(block, 0.375d, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, 5));
+            renderer.renderFaceXNeg(block, 0.375d, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, 6));
             tessellator.draw();
             tessellator.startDrawingQuads();
             tessellator.setNormal(1.0F, 0.0F, 0.0F);
 
-            renderer.renderFaceXPos(block, -0.375d, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, 5));
+            renderer.renderFaceXPos(block, -0.375d, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, 6));
             tessellator.draw();
             GL11.glTranslatef(0.5F, 0.5F, 0.5F);
         }
