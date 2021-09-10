@@ -7,7 +7,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -20,7 +19,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.Random;
 
 import static net.minecraftforge.common.util.ForgeDirection.*;
-import static net.minecraftforge.common.util.ForgeDirection.EAST;
 
 public class BlockHalogenLight extends Block {
 
@@ -97,6 +95,7 @@ public class BlockHalogenLight extends Block {
                     return Side2_0;
                 } else if (meta == 7) {
                     return Side0_2;
+                    a
                 }
                 return Side1_0;
             case 4:
