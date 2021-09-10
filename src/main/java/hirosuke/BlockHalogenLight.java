@@ -36,23 +36,35 @@ public class BlockHalogenLight extends Block {
 
     public IIcon Side0_0;
     public IIcon Side0_1;
+    public IIcon Side0_2;
+    public IIcon Side0_3;
+    public IIcon Side0_4;
     public IIcon Side1_0;
     public IIcon Side1_1;
     public IIcon Side1_2;
+    public IIcon Side1_3;
+    public IIcon Side1_4;
     public IIcon Side2_0;
     public IIcon Side2_1;
     public IIcon Side2_2;
+    public IIcon Side2_3;
 
     @Override
     public void registerBlockIcons(IIconRegister icon) {
         Side0_0 = icon.registerIcon(HalogenLight.modid + ":Side0_0");
         Side0_1 = icon.registerIcon(HalogenLight.modid + ":Side0_1");
+        Side0_2 = icon.registerIcon(HalogenLight.modid + ":Side0_2");
+        Side0_3 = icon.registerIcon(HalogenLight.modid + ":Side0_3");
+        Side0_4 = icon.registerIcon(HalogenLight.modid + ":Side0_4");
         Side1_0 = icon.registerIcon(HalogenLight.modid + ":Side1_0");
         Side1_1 = icon.registerIcon(HalogenLight.modid + ":Side1_1");
         Side1_2 = icon.registerIcon(HalogenLight.modid + ":Side1_2");
+        Side1_3 = icon.registerIcon(HalogenLight.modid + ":Side1_3");
+        Side1_4 = icon.registerIcon(HalogenLight.modid + ":Side1_4");
         Side2_0 = icon.registerIcon(HalogenLight.modid + ":Side2_0");
         Side2_1 = icon.registerIcon(HalogenLight.modid + ":Side2_1");
         Side2_2 = icon.registerIcon(HalogenLight.modid + ":Side2_2");
+        Side2_3 = icon.registerIcon(HalogenLight.modid + ":Side2_3");
     }
 
     public IIcon getIcon(int side, int meta) {
@@ -61,14 +73,24 @@ public class BlockHalogenLight extends Block {
             case 1:
                 if(meta == 4) {
                     return Side0_1;
+                } else if (meta == 3) {
+                    return Side0_2;
+                } else if (meta == 2) {
+                    return Side0_3;
+                } else if (meta == 1) {
+                    return Side0_4;
                 }
                 return Side0_0;
             case 2:
             case 3:
                 if(meta == 0) {
                     return Side1_1;
-                } else if (meta == 4) {
+                } else if (meta == 4 || meta == 3) {
                     return Side1_2;
+                } else if (meta == 2) {
+                    return Side1_3;
+                } else if (meta == 1) {
+                    return Side1_4;
                 }
                 return Side1_0;
             case 4:
@@ -77,6 +99,8 @@ public class BlockHalogenLight extends Block {
                     return Side2_1;
                 } else if(meta == 4) {
                     return Side2_2;
+                } else if (meta == 3 || meta == 2 || meta == 1) {
+                    return Side2_3;
                 }
                 return Side2_0;
         }
@@ -129,12 +153,18 @@ public class BlockHalogenLight extends Block {
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
         int l = world.getBlockMetadata(x, y, z);
-        if(l == 0) {
+        if (l == 0) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
-        } else if(l == 5) {
+        } else if (l == 5) {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
-        } else if(l == 4) {
+        } else if (l == 4) {
             this.setBlockBounds(0f, 0.4375f, 1 - 0.125f, 1f, 0.5625f, 1.0f);
+        } else if (l == 3) {
+            this.setBlockBounds(0f, 0.4375f, 0f, 1f, 0.5625f, 0.125f);
+        } else if (l == 2) {
+            this.setBlockBounds(1 - 0.125f, 0.4375f, 0.0f, 1f, 0.5625f, 1.0f);
+        } else if (l == 1) {
+            this.setBlockBounds(0f, 0.4375f, 0.0f, 0.125f, 0.5625f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         }
