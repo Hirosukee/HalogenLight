@@ -36,27 +36,23 @@ public class BlockHalogenLight extends Block {
 
     public IIcon Side0_0;
     public IIcon Side0_1;
-    public IIcon Side0_2;
     public IIcon Side1_0;
     public IIcon Side1_1;
     public IIcon Side1_2;
     public IIcon Side2_0;
     public IIcon Side2_1;
     public IIcon Side2_2;
-    public IIcon Side2_3;
 
     @Override
     public void registerBlockIcons(IIconRegister icon) {
         Side0_0 = icon.registerIcon(HalogenLight.modid + ":Side0_0");
         Side0_1 = icon.registerIcon(HalogenLight.modid + ":Side0_1");
-        Side0_2 = icon.registerIcon(HalogenLight.modid + ":Side0_2");
         Side1_0 = icon.registerIcon(HalogenLight.modid + ":Side1_0");
         Side1_1 = icon.registerIcon(HalogenLight.modid + ":Side1_1");
         Side1_2 = icon.registerIcon(HalogenLight.modid + ":Side1_2");
         Side2_0 = icon.registerIcon(HalogenLight.modid + ":Side2_0");
         Side2_1 = icon.registerIcon(HalogenLight.modid + ":Side2_1");
         Side2_2 = icon.registerIcon(HalogenLight.modid + ":Side2_2");
-        Side2_3 = icon.registerIcon(HalogenLight.modid + ":Side2_3");
     }
 
     public IIcon getIcon(int side, int meta) {
