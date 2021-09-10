@@ -20,7 +20,7 @@ import net.minecraft.item.ItemStack;
 public class HalogenLight {
      public static final String modid = "halogenlight";
      public static final String name = "Halogen Light";
-     public static final String version = "1.0";
+     public static final String version = "1.1";
 
      public static Block blockHalogenLight;
      public static Item itemHalogenLight;

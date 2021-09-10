@@ -7,15 +7,20 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.Random;
+
+import static net.minecraftforge.common.util.ForgeDirection.*;
+import static net.minecraftforge.common.util.ForgeDirection.EAST;
 
 public class BlockHalogenLight extends Block {
 
@@ -29,44 +34,55 @@ public class BlockHalogenLight extends Block {
         this.setLightOpacity(1);
     }
 
-    public IIcon Side0;
-    public IIcon Side02;
-    public IIcon Side1;
-    public IIcon Side1top;
-    public IIcon Side1top2;
-    public IIcon Side2;
-    public IIcon Side2top;
-    public IIcon Side2top2;
+    public IIcon Side0_0;
+    public IIcon Side0_1;
+    public IIcon Side0_2;
+    public IIcon Side1_0;
+    public IIcon Side1_1;
+    public IIcon Side1_2;
+    public IIcon Side2_0;
+    public IIcon Side2_1;
+    public IIcon Side2_2;
+    public IIcon Side2_3;
 
     @Override
     public void registerBlockIcons(IIconRegister icon) {
-        Side0 = icon.registerIcon(HalogenLight.modid + ":Side0");
-        Side02 = icon.registerIcon(HalogenLight.modid + ":Side02");
-        Side1 = icon.registerIcon(HalogenLight.modid + ":Side1");
-        Side1top = icon.registerIcon(HalogenLight.modid + ":Side1top");
-        Side1top2 = icon.registerIcon(HalogenLight.modid + ":Side1top2");
-        Side2 = icon.registerIcon(HalogenLight.modid + ":Side2");
-        Side2top = icon.registerIcon(HalogenLight.modid + ":Side2top");
-        Side2top2 = icon.registerIcon(HalogenLight.modid + ":Side2top2");
+        Side0_0 = icon.registerIcon(HalogenLight.modid + ":Side0_0");
+        Side0_1 = icon.registerIcon(HalogenLight.modid + ":Side0_1");
+        Side0_2 = icon.registerIcon(HalogenLight.modid + ":Side0_2");
+        Side1_0 = icon.registerIcon(HalogenLight.modid + ":Side1_0");
+        Side1_1 = icon.registerIcon(HalogenLight.modid + ":Side1_1");
+        Side1_2 = icon.registerIcon(HalogenLight.modid + ":Side1_2");
+        Side2_0 = icon.registerIcon(HalogenLight.modid + ":Side2_0");
+        Side2_1 = icon.registerIcon(HalogenLight.modid + ":Side2_1");
+        Side2_2 = icon.registerIcon(HalogenLight.modid + ":Side2_2");
+        Side2_3 = icon.registerIcon(HalogenLight.modid + ":Side2_3");
     }
 
     public IIcon getIcon(int side, int meta) {
         switch(side) {
             case 0:
             case 1:
-                return Side0;
+                if(meta == 4) {
+                    return Side0_1;
+                }
+                return Side0_0;
             case 2:
             case 3:
-                if(meta == 4) {
-                    return Side1top;
+                if(meta == 0) {
+                    return Side1_1;
+                } else if (meta == 4) {
+                    return Side1_2;
                 }
-                return Side1;
+                return Side1_0;
             case 4:
             case 5:
-                if(meta == 4) {
-                    return Side2top;
+                if(meta == 0) {
+                    return Side2_1;
+                } else if(meta == 4) {
+                    return Side2_2;
                 }
-                return Side2;
+                return Side2_0;
         }
         return null;
     }
@@ -94,78 +110,224 @@ public class BlockHalogenLight extends Block {
         return super.getItemDropped(p_149650_1_, p_149650_2_, p_149650_3_);
     }
 
-    private boolean isUnderSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
+    private boolean isUnderSolid(World world, int x, int y, int z)
     {
-        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.UP)) { return true; }
+        if (isSideSolid(world, x, y, z, ForgeDirection.UP)) { return true; }
         else {
-            Block block = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
-            return block.canPlaceTorchOnTop(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_);
+            Block block = world.getBlock(x, y, z);
+            return block.canPlaceTorchOnTop(world, x, y, z);
         }
     }
 
-    private boolean isAboveSolid(World p_150107_1_, int p_150107_2_, int p_150107_3_, int p_150107_4_)
+    private boolean isAboveSolid(World world, int x, int y, int z)
     {
-        if (isSideSolid(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_, ForgeDirection.DOWN)) { return true; }
+        if (isSideSolid(world, x, y, z, ForgeDirection.DOWN)) { return true; }
         else
         {
-            Block block = p_150107_1_.getBlock(p_150107_2_, p_150107_3_, p_150107_4_);
-            return block.canPlaceTorchOnTop(p_150107_1_, p_150107_2_, p_150107_3_, p_150107_4_);
+            Block block = world.getBlock(x, y, z);
+            return block.canPlaceTorchOnTop(world, x, y, z);
         }
     }
 
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+
         int l = world.getBlockMetadata(x, y, z);
-        if (l == 4) {
+        if(l == 0) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
+        } else if(l == 5) {
+            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+        } else if(l == 4) {
+            this.setBlockBounds(0f, 0.4375f, 1 - 0.125f, 1f, 0.5625f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         }
-        super.setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, int x, int y, int z) {
-        if (isUnderSolid(world, x, y - 1, z)) {
-            return true;
-        } else if (isAboveSolid(world, x, y + 1, z)) {
-            return true;
-        } else {
-            return false;
+    public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int direction)
+    {
+        ForgeDirection dir = ForgeDirection.getOrientation(direction);
+        return (dir == DOWN  && world.isSideSolid(x, y + 1, z, DOWN )) ||
+                (dir == UP    && world.isSideSolid(x, y - 1, z, UP   )) ||
+                (dir == NORTH && world.isSideSolid(x, y, z + 1, NORTH)) ||
+                (dir == SOUTH && world.isSideSolid(x, y, z - 1, SOUTH)) ||
+                (dir == WEST  && world.isSideSolid(x + 1, y, z, WEST )) ||
+                (dir == EAST  && world.isSideSolid(x - 1, y, z, EAST ));
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World world, int x, int y, int z)
+    {
+        return world.isSideSolid(x - 1, y, z, EAST ) ||
+                world.isSideSolid(x + 1, y, z, WEST ) ||
+                world.isSideSolid(x, y, z - 1, SOUTH) ||
+                world.isSideSolid(x, y, z + 1, NORTH) ||
+                world.isSideSolid(x, y - 1, z, UP   ) ||
+                world.isSideSolid(x, y + 1, z, DOWN );
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack item) {
+
+        int l = world.getBlockMetadata(x, y, z);
+        int i1 = l & 7;
+        int j1 = l & 8;
+
+        if (i1 == invertMetadata(1))
+        {
+            if ((MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 1) == 0)
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 5 | j1, 2);
+            }
+            else
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 6 | j1, 2);
+            }
+        }
+        else if (i1 == invertMetadata(0))
+        {
+            if ((MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 1) == 0)
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 7 | j1, 2);
+            }
+            else
+            {
+                world.setBlockMetadataWithNotify(x, y, z, 0 | j1, 2);
+            }
+        }
+
+        Logger.info(world.getBlockMetadata(x, y, z) + "");
+    }
+
+    public static int invertMetadata(int p_149819_0_)
+    {
+        switch (p_149819_0_)
+        {
+            case 0:
+                return 0;
+            case 1:
+                return 5;
+            case 2:
+                return 4;
+            case 3:
+                return 3;
+            case 4:
+                return 2;
+            case 5:
+                return 1;
+            default:
+                return -1;
         }
     }
 
-//    @Override
-//    public void onBlockAdded(World world, int x, int y, int z) {
-//        if(isAboveSolid(world, x, y, z)) {
-//            world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-//            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
-//        } else {
-//            world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-//            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
-//        }
-//    }
-
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
-        if(isAboveSolid(world, x, y + 1, z)) {
-            world.setBlockMetadataWithNotify(x, y, z, 4, 2);
-            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
-        } else {
-            world.setBlockMetadataWithNotify(x, y, z, 0, 2);
-            world.notifyBlockChange(x, y, z, world.getBlock(x, y, z));
+    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta)
+    {
+        int k1 = meta & 8;
+        int j1 = meta & 7;
+        byte b0 = -1;
+
+        if (side == 0 && world.isSideSolid(x, y + 1, z, DOWN))
+        {
+            b0 = 0;
+        }
+
+        if (side == 1 && world.isSideSolid(x, y - 1, z, UP))
+        {
+            b0 = 5;
+        }
+
+        if (side == 2 && world.isSideSolid(x, y, z + 1, NORTH))
+        {
+            b0 = 4;
+        }
+
+        if (side == 3 && world.isSideSolid(x, y, z - 1, SOUTH))
+        {
+            b0 = 3;
+        }
+
+        if (side == 4 && world.isSideSolid(x + 1, y, z, WEST))
+        {
+            b0 = 2;
+        }
+
+        if (side == 5 && world.isSideSolid(x - 1, y, z, EAST))
+        {
+            b0 = 1;
+        }
+
+        return b0 + k1;
+    }
+
+    private boolean func_149820_e(World world, int x, int y, int z)
+    {
+        if (!this.canPlaceBlockAt(world, x, y, z))
+        {
+            this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+            world.setBlockToAir(x, y, z);
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block)
     {
-        if (!isUnderSolid(world, x, y - 1, z) && world.getBlockMetadata(x, y, z) != 4) {
-            dropBlockAsItem(world, x, y, z, new ItemStack(HalogenLight.blockHalogenLight));
-            world.setBlockToAir(x, y, z);
-        } else if (!isAboveSolid(world, x, y + 1, z) && world.getBlockMetadata(x, y, z) == 4) {
-            dropBlockAsItem(world, x, y, z, new ItemStack(HalogenLight.blockHalogenLight));
-            world.setBlockToAir(x, y, z);
+        if (this.func_149820_e(world, x, y, z))
+        {
+            int l = world.getBlockMetadata(x, y, z) & 7;
+            boolean flag = false;
+
+            if (!world.isSideSolid(x - 1, y, z, EAST) && l == 1)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x + 1, y, z, WEST) && l == 2)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y, z - 1, SOUTH) && l == 3)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y, z + 1, NORTH) && l == 4)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y - 1, z, UP) && l == 5)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y - 1, z, UP) && l == 6)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y + 1, z, DOWN) && l == 0)
+            {
+                flag = true;
+            }
+
+            if (!world.isSideSolid(x, y + 1, z, DOWN) && l == 7)
+            {
+                flag = true;
+            }
+
+            if (flag)
+            {
+                this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+                world.setBlockToAir(x, y, z);
+            }
         }
     }
 }

@@ -38,12 +38,15 @@ public class RenderHalogenLight extends Block implements ISimpleBlockRenderingHa
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 
         int l = world.getBlockMetadata(x, y, z);
-        if(l == 4) {
+        if(l == 0) {
             this.setBlockBounds(0.4375f, 1 - 0.125f, 0.0f, 0.5625f, 1f, 1.0f);
+        } else if(l == 5) {
+            this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
+        } else if(l == 4) {
+            this.setBlockBounds(0f, 0.4375f, 1 - 0.125f, 1f, 0.5625f, 1.0f);
         } else {
             this.setBlockBounds(0.4375f, 0.0f, 0.0f, 0.5625f, 0.125f, 1.0f);
         }
-        super.setBlockBoundsBasedOnState(world, x, y, z);
     }
 
     @Override
