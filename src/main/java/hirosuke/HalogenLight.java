@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 
 @Mod(modid = HalogenLight.modid, name = HalogenLight.name, version = HalogenLight.version)
 public class HalogenLight {
-     public static final String modid = "halogenlight";
+     public static final String modid = "halogelight";
      public static final String name = "Halogen Light";
      public static final String version = "1.1";
 
