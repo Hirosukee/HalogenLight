@@ -7,7 +7,7 @@ Page : https://www.curseforge.com/minecraft/mc-mods/halogen-light
 
 ## Image 
 
-![image](https://user-images.githubusercontent.com/51872161/132948034-5ddb53d8-5df7-4f02-a81c-34161b5c9c6b.png)  
+![image](https://user-images.githubusercontent.com/51872161/132991540-45c7ac51-9d1a-4031-9f77-1536a2c33619.png)  
 Halogen Light can place in wall, ceiling and ground. 
 
 ## Recipe
