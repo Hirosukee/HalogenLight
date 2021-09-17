@@ -4,7 +4,7 @@
 某さんのmodがDLできなくなっていたので自分用に作りました。  
 壁、床、天井に置ける蛍光灯を追加します。
 
-DL: [YukkuriManju-1.7.10_1.2.jar](https://github.com/Hirosukee/YukkuriManju/releases/download/1.2/YukkuriManju-1.7.10_1.2.jar)  
+DL: [HalogenLight-1.7.10_1.1.jar](https://github.com/Hirosukee/HalogenLight/releases/download/1.1/HalogenLight-1.7.10_1.1.jar)  
 スレ: https://forum.civa.jp/viewtopic.php?f=3&t=796  
 
 ## 追加要素
